@@ -1,0 +1,18 @@
+import MobileBottomNav from "@/components/navigation/mobile-bottom-nav"
+import Navbar from "@/components/navigation/navbar"
+import React from "react"
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <div>
+      <Navbar />
+      {children}
+
+      <MobileBottomNav />
+    </div>
+  )
+}
