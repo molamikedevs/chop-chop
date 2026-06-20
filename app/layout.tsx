@@ -1,9 +1,21 @@
 import { jakarta, sora } from "@/config/fonts"
 
-import { ThemeProvider } from "@/components/theme/theme-provider"
-
-import { ClerkProvider } from "@clerk/nextjs"
+import { Providers } from "@/components/theme/providers"
+import ThemeProvider from "@/components/theme/theme-provider"
+import { siteConfig } from "@/config/site"
+import type { Metadata } from "next"
 import "./globals.css"
+
+export const metadata: Metadata = {
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  icons: {
+    icon: siteConfig.icons.icon,
+  },
+}
 
 export default function RootLayout({
   children,
@@ -13,13 +25,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      suppressHydrationWarning
       className={`${jakarta.variable} ${sora.variable} antialiased`}
+      suppressHydrationWarning
     >
       <body>
-        <ClerkProvider>
-          <ThemeProvider>{children}</ThemeProvider>
-        </ClerkProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Providers>{children}</Providers>
+        </ThemeProvider>
       </body>
     </html>
   )
