@@ -1,19 +1,21 @@
-import { Button } from "@/components/ui/button"
+import ThemeSwitch from "@/components/theme/theme-switch"
+import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs"
 
 export default function Page() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
+    <header className="flex h-16 items-center justify-end gap-4 p-4">
+      <Show when="signed-out">
+        <SignInButton />
+        <SignUpButton>
+          <button className="h-10 cursor-pointer rounded-full bg-[#6c47ff] px-4 text-sm font-medium text-white sm:h-12 sm:px-5 sm:text-base">
+            Sign Up
+          </button>
+        </SignUpButton>
+      </Show>
+      <Show when="signed-in">
+        <UserButton />
+      </Show>
+      <ThemeSwitch />
+    </header>
   )
 }
