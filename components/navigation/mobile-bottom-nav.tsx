@@ -6,6 +6,7 @@ import { Show, UserButton } from "@clerk/nextjs"
 import { User } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import SearchInput from "../search/search-input"
 import BottomNavLink from "./bottom-nav-link"
 
 // Pull only items marked for the mobile bar, in display order
@@ -22,6 +23,10 @@ export default function MobileBottomNav() {
       aria-label="Primary"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
+      {/* Search row */}
+      <div className="border-b border-border/60 px-4 py-2">
+        <SearchInput />
+      </div>
       <ul className="mx-auto flex max-w-md items-stretch justify-around px-2">
         {bottomBarItems.map((item) => (
           <BottomNavLink key={item.href} item={item} pathname={pathname} />
@@ -46,7 +51,7 @@ export default function MobileBottomNav() {
               </Link>
             }
           >
-            <div className="flex h-16 flex-col items-center justify-center gap-1 text-[10px] font-medium text-muted-foreground">
+            <div className="ml-6 flex h-16 flex-col items-center justify-center gap-1 text-[10px] font-medium text-muted-foreground">
               <UserButton appearance={{ elements: { avatarBox: "h-6 w-6" } }} />
               <span>Account</span>
             </div>

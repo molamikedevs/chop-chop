@@ -1,6 +1,6 @@
 "use client"
 
-import Logo from "@/components/logo"
+import Logo from "@/components/layout/logo"
 import NavLinks from "@/components/navigation/nav-links"
 import ThemeSwitch from "@/components/theme/theme-switch"
 import { Button } from "@/components/ui/button"
@@ -8,26 +8,32 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { protectedNavItems, publicNavItems } from "@/constant"
 import { ClerkLoaded, ClerkLoading, Show, UserButton } from "@clerk/nextjs"
 import Link from "next/link"
+import SearchInput from "../search/search-input"
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60">
-      <nav className="mx-auto flex h-16 max-w-screen-2xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-40 …">
+      <nav className="mx-auto flex h-16 max-w-screen-2xl items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Logo />
 
+        {/* Search — desktop, takes the middle */}
+        <div className="hidden flex-1 justify-center md:flex">
+          <SearchInput className="max-w-md" />
+        </div>
+
+        {/* Nav links — desktop, after search */}
         <NavLinks
           publicItems={publicNavItems}
           protectedItems={protectedNavItems}
-          className="hidden md:flex"
+          className="hidden lg:flex"
         />
-
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="mx-1 hidden h-6 w-px bg-border sm:block" />
+        <div className="ml-auto flex items-center gap-2 sm:gap-3">
           <ThemeSwitch />
 
           <ClerkLoading>
             <Skeleton className="h-9 w-9 rounded-full" />
           </ClerkLoading>
-
           <ClerkLoaded>
             <Show
               when="signed-in"
@@ -48,7 +54,11 @@ export default function Navbar() {
                 </>
               }
             >
-              <UserButton appearance={{ elements: { avatarBox: "h-9 w-9" } }} />
+              <div className="hidden md:block">
+                <UserButton
+                  appearance={{ elements: { avatarBox: "h-9 w-9" } }}
+                />
+              </div>
             </Show>
           </ClerkLoaded>
         </div>

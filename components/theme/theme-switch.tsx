@@ -3,15 +3,37 @@
 import { Button } from "@/components/ui/button"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
+import { useSyncExternalStore } from "react"
+
+const emptySubscribe = () => () => {}
+
+function useIsMounted() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true, // client snapshot
+    () => false // server snapshot
+  )
+}
 
 export default function ThemeSwitch() {
-  const { theme, setTheme } = useTheme()
-  const isDark =
-    theme === "dark" ||
-    (theme === "system" &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  const mounted = useIsMounted()
+  const { resolvedTheme, setTheme } = useTheme()
 
+  const isDark = resolvedTheme === "dark"
   const toggle = () => setTheme(isDark ? "light" : "dark")
+
+  if (!mounted) {
+    return (
+      <Button
+        variant="ghost"
+        size="icon"
+        aria-label="Toggle theme"
+        className="cursor-pointer"
+      >
+        <Sun className="h-[18px] w-[18px]" />
+      </Button>
+    )
+  }
 
   return (
     <Button
